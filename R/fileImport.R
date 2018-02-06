@@ -40,10 +40,10 @@ fileImportUI <- function(id, label = "Comma or Tab Separated File") {
     uiOutput(ns("columnAsRowNamesControl")),
     # a preview table to help user get the right format
     conditionalPanel(
-      condition = getJavaScriptOutput("fileUploaded", ns),
+      condition = .getJavaScriptOutput("fileUploaded", ns),
       wellPanel(
         tags$h3("Data Preview"),
-        dataPreviewUI(ns("dataPreview"))
+        .dataPreviewUI(ns("dataPreview"))
       )
     ),
     # the import button
@@ -127,7 +127,7 @@ fileImport <- function(input, output, session, stringsAsFactors = FALSE) {
          data = actualDataFrame)
   })
 
-  callModule(dataPreview, "dataPreview", returnForm)
+  callModule(.dataPreview, "dataPreview", returnForm)
 
   # return the imported data only when the import button clicked
   dataToBeImported <- eventReactive(input$importButton, {
@@ -137,7 +137,7 @@ fileImport <- function(input, output, session, stringsAsFactors = FALSE) {
   return(dataToBeImported)
 }
 
-dataPreviewUI <- function(id) {
+.dataPreviewUI <- function(id) {
   ns <- NS(id)
 
   tagList(
@@ -146,7 +146,7 @@ dataPreviewUI <- function(id) {
   )
 }
 
-dataPreview <- function(input, output, session, dataObject) {
+.dataPreview <- function(input, output, session, dataObject) {
 
   dataFrame <- reactive({
     if (input$showAllData == TRUE) {
@@ -163,6 +163,6 @@ dataPreview <- function(input, output, session, dataObject) {
   )
 }
 
-getJavaScriptOutput <- function(id, ns) {
+.getJavaScriptOutput <- function(id, ns) {
   return(paste0("output['", ns(id), "']"))
 }
