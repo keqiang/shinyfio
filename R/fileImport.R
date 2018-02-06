@@ -41,11 +41,8 @@ fileImportUI <- function(id, label = "Comma or Tab Separated File") {
     # a preview table to help user get the right format
     conditionalPanel(
       condition = getJavaScriptOutput("fileUploaded", ns),
-      box(
-        width = 12,
-        title = "Data Preview",
-        status = "success",
-        collapsible = TRUE,
+      wellPanel(
+        tags$h2("Data Preview"),
         dataPreviewUI(ns("dataPreview"))
       )
     ),
