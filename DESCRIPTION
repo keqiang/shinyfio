@@ -1,4 +1,4 @@
-Package: shinyuiutils
+Package: shinywidgets
 Type: Package
 Title: This package includes some commonly used Shiny UI utilities such as a file uploader with data previewing capability.
 Version: 0.1.0
