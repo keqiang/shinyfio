@@ -1,7 +1,7 @@
-#' UI to upload a file
+#' UI to import a data table from file
 #'
 #' This UI component provides UI for user to select a local file
-#' and specify options to parse the file. The preview panel will
+#' and specify options to parse the file to a table. The preview panel will
 #' update accordingly so user will be able know if they are doing
 #' things correctly or not.
 #'
@@ -9,9 +9,9 @@
 #' @param label the label of this UI
 #' @return A tagList that includes all the UI components
 #' @export
-fileImportUI <- function(id, label = "Comma or Tab Separated File") {
+tableImportUI <- function(id, label = "Comma or Tab Separated File") {
   ns <- NS(id)
-
+  
   tagList(
     # browse to select file to import
     fileInput(ns("selectedFile"), label, accept = c(
@@ -35,15 +35,13 @@ fileImportUI <- function(id, label = "Comma or Tab Separated File") {
       "Comma" = ",",
       "Tab" = "\t"
     )),
-    # server will provide options after parsing the table.
-    # this is to specify which column should be used as unique row names for R data frame
-    uiOutput(ns("columnAsRowNamesControl")),
+    
     # a preview table to help user get the right format
     conditionalPanel(
       condition = .getJavaScriptOutput("fileUploaded", ns),
       wellPanel(
         tags$h3("Data Preview"),
-        .dataPreviewUI(ns("dataPreview"))
+        .dataTablePreviewUI(ns("dataTablePreview"))
       )
     ),
     # the import button
@@ -61,103 +59,69 @@ fileImportUI <- function(id, label = "Comma or Tab Separated File") {
 #' @param stringsAsFactors to indicate if the strings should be imported as factors
 #' @return the imported data object as a data frame
 #' @export
-fileImport <- function(input, output, session, stringsAsFactors = FALSE) {
-
+tableImport <- function(input, output, session, stringsAsFactors = FALSE) {
+  
   # user selected file
   verifiedSelectedFile <- reactive({
-    validate(need(input$selectedFile, message = FALSE))
+    req(input$selectedFile)
     input$selectedFile
   })
-
+  
   output$fileUploaded <- reactive({
-    validate(need(input$selectedFile, message = FALSE))
+    req(input$selectedFile)
     TRUE
   })
-
+  
   outputOptions(output, "fileUploaded", suspendWhenHidden = FALSE)
-
-  # to give a correct list of column names, need to use NULL for param row.names
-  tableColumnsOptions <- reactive({
-    dataFrameWithAllColumnsAsData <- head(read.table(verifiedSelectedFile()$datapath,
-                                                     header = input$hasColumnHeaders,
-                                                     quote = input$quoteType,
-                                                     sep = input$separator,
-                                                     stringsAsFactors = stringsAsFactors,
-                                                     row.names = NULL))
-    colNames <- colnames(dataFrameWithAllColumnsAsData)
-    tableColumns <- c(0 : length(colNames))
-    names(tableColumns) <- c("Use automatic numbering as row names", colNames)
-    tableColumns
+  
+  # the current data frame imported regarding to the user specified options
+  previewTibble <- reactive({
+    read_func <- ifelse(input$separator == ",", readr::read_csv, readr::read_tsv)
+    
+    read_func(
+      verifiedSelectedFile()$datapath,
+      col_names = input$hasColumnHeaders,
+      quote = input$quoteType,
+      n_max = 50
+    )
   })
-
-  # render a combobox for user to select which column to use as row.names param
-  output$columnAsRowNamesControl <- renderUI({
-    # for server side defined UI element, has to retrieve ns function and wrap the input's id
-    ns <- session$ns
-    selectInput(ns("columnAsRowNames"),
-                label = "Choose a column as unique row names",
-                choices = tableColumnsOptions())
-  })
-
-  # the current data frame imported regarding to the use specified options
-  instantDataFrame <- reactive({
-    columnIndex <- input$columnAsRowNames
-    # the selectinput ui gives a string rather than integer, so needs to be converted
-    if (!is.null(columnIndex)) {
-      columnIndex <- as.integer(columnIndex)
-      if (columnIndex == 0) {
-        columnIndex <- NULL
-      }
-    }
-
-    read.table(verifiedSelectedFile()$datapath,
-               header = input$hasColumnHeaders,
-               quote = input$quoteType,
-               sep = input$separator,
-               stringsAsFactors = stringsAsFactors,
-               row.names = columnIndex)
-  })
-
-  returnForm <- reactive({
-    actualDataFrame <- instantDataFrame()
-    list(name = tools::file_path_sans_ext(verifiedSelectedFile()$name),
-         type = "data.frame",
-         size = dim(actualDataFrame),
-         source = "File",
-         data = actualDataFrame)
-  })
-
-  callModule(.dataPreview, "dataPreview", returnForm)
-
+  
+  callModule(.dataTablePreview, "dataTablePreview", previewTibble)
+  
   # return the imported data only when the import button clicked
   dataToBeImported <- eventReactive(input$importButton, {
-    returnForm()
+    read_func <- ifelse(input$separator == ",", readr::read_csv, readr::read_tsv)
+    
+    read_func(
+      verifiedSelectedFile()$datapath,
+      col_names = input$hasColumnHeaders,
+      quote = input$quoteType
+    )
   })
-
+  
   return(dataToBeImported)
 }
 
-.dataPreviewUI <- function(id) {
+.dataTablePreviewUI <- function(id) {
   ns <- NS(id)
-
+  
   tagList(
     DT::dataTableOutput(ns("previewTable")),
     checkboxInput(ns("showAllData"), label = "Show all", value = FALSE)
   )
 }
 
-.dataPreview <- function(input, output, session, dataObject) {
-
-  dataFrame <- reactive({
-    if (input$showAllData == TRUE) {
-      dataObject()$data
+.dataTablePreview <- function(input, output, session, dataTable) {
+  displayData <- reactive({
+    if (input$showAllData) {
+      dataTable()
     } else {
-      head(dataObject()$data)
+      head(dataTable())
     }
   })
-
+  
   output$previewTable <- DT::renderDataTable(
-    dataFrame(),
+    displayData(),
     options = list(scrollX = TRUE),
     selection = "none"
   )
