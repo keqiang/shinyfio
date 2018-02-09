@@ -1,11 +1,36 @@
-# shinyuiutils
-This package includes some commonly used Shiny UI utilities such as a file uploader with data previewing capability.
+# shinywidgets
+This package includes some commonly used Shiny customized UI utilities such as a file uploader with data previewing capability.
 
 # Installation
 `devtools::install_github("keqiang/shinywidgets")`
 
-# example: app.R
+# Example: app.R
 
+## Regular Shiny app
+```R
+library(shiny)
+library(shinywidgets)
+
+ui <- fluidPage(
+  wellPanel(
+    tableImportUI("fileImport1"),
+    verbatimTextOutput("debug")
+  )
+)
+
+server <- function(input, output) {
+  importedData <- callModule(tableImport, "fileImport1")
+  
+  output$debug <- renderPrint({
+    print(importedData())
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+```
+
+## Dashboard Shiny app
 ```R
 library(shiny)
 library(shinydashboard)
