@@ -37,7 +37,7 @@ library(shinydashboard)
 library(shinywidgets)
 
 ui <- dashboardPage(
-  dashboardHeader(title = "File Importing Module Example"),
+  dashboardHeader(title = "Table Importing Module Example"),
   dashboardSidebar(),
   dashboardBody(
     fluidRow(
