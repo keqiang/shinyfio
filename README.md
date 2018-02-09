@@ -6,7 +6,7 @@ This package includes some commonly used Shiny UI utilities such as a file uploa
 
 # example: app.R
 
-```
+```R
 library(shiny)
 library(shinydashboard)
 library(shinywidgets)
