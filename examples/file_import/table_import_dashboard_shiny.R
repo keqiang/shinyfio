@@ -1,6 +1,6 @@
 library(shiny)
 library(shinydashboard)
-#library(shinywidgets)
+library(shinywidgets)
 
 ui <- dashboardPage(
   dashboardHeader(title = "Table Importing Example"),
@@ -19,7 +19,7 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output) {
-  importedData <- importDataTable("tableImport1", fileLocation = "server")
+  importedData <- importDataTable("tableImport1")
   
   output$debug <- renderPrint({
     print(importedData())
