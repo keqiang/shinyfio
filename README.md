@@ -1,5 +1,5 @@
 # shinywidgets
-This package includes some commonly used Shiny customized UI utilities such as a file uploader with data previewing capability.
+This package includes some commonly used Shiny customized UI widgets such as a file uploader with data previewing capability.
 
 # Installation
 `devtools::install_github("keqiang/shinywidgets")`
@@ -13,13 +13,13 @@ library(shinywidgets)
 
 ui <- fluidPage(
   wellPanel(
-    tableImportUI("tableImport1"),
+    dataTableImportWidget("tableImport1"),
     verbatimTextOutput("debug")
   )
 )
 
 server <- function(input, output) {
-  importedData <- callModule(tableImport, "tableImport1")
+  importedData <- importDataTable("tableImport1")
   
   output$debug <- renderPrint({
     print(importedData())
@@ -37,7 +37,7 @@ library(shinydashboard)
 library(shinywidgets)
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Table Importing Module Example"),
+  dashboardHeader(title = "Table Importing Example"),
   dashboardSidebar(),
   dashboardBody(
     fluidRow(
@@ -45,7 +45,7 @@ ui <- dashboardPage(
           status = "primary",
           solidHeader = TRUE,
           width = 12,
-          tableImportUI("tableImport1"),
+          dataTableImportWidget("tableImport1"),
           verbatimTextOutput("debug")
       )
     )
@@ -53,7 +53,7 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output) {
-  importedData <- callModule(tableImport, "tableImport1")
+  importedData <- importDataTable("tableImport1")
   
   output$debug <- renderPrint({
     print(importedData())
