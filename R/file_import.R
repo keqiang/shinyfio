@@ -133,8 +133,8 @@
 #' @return A tagList that includes all the UI components
 #' @export
 dataTableImportWidget <-
-  function(id, label = "Comma or Tab Separated File", fileLocation = c("local", "server", "either")) {
-    .dataTableImportUI(id, label, fileLocation)
+  function(id, label = "Comma or Tab Separated File") {
+    .dataTableImportUI(id, label)
   }
 
 #' Shiny serve logic for \code{dataTableImportWidget}.
@@ -145,6 +145,6 @@ dataTableImportWidget <-
 #' @param id The same ID as used in the matching call to \code{dataTableImportWidget}
 #' @return the imported data object as a reactive data frame
 #' @export
-importDataTable <- function(id) {
-  callModule(.dataTableImport, id)
+importDataTable <- function(id, fileLocation = c("local", "server", "either")) {
+  callModule(.dataTableImport, id, fileLocation)
 }
