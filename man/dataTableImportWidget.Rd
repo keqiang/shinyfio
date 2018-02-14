@@ -15,7 +15,7 @@ dataTableImportWidget(id, label = "Comma or Tab Separated File")
 A tagList that includes all the UI components
 }
 \description{
-This widget provides UI for the user to select a local file
+This widget provides UI for the user to select a file
 and specify options to parse the file to a data table. The preview panel will
 update accordingly so users will be able to know if they are doing
 things correctly.
