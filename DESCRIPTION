@@ -11,5 +11,6 @@ LazyData: true
 Imports:
   DT,
   shiny,
-  readr
-
+  readr,
+  shinyFiles
+Remotes: thomasp85/shinyFiles
