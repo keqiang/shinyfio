@@ -3,13 +3,13 @@ library(shinywidgets)
 
 ui <- fluidPage(
   wellPanel(
-    tableImportUI("tableImport1"),
+    dataTableImportWidget("tableImport1"),
     verbatimTextOutput("debug")
   )
 )
 
 server <- function(input, output) {
-  importedData <- callModule(tableImport, "tableImport1")
+  importedData <- importDataTable("tableImport1")
   
   output$debug <- renderPrint({
     print(importedData())

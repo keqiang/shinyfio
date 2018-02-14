@@ -3,7 +3,7 @@ library(shinydashboard)
 library(shinywidgets)
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Table Importing Module Example"),
+  dashboardHeader(title = "Table Importing Example"),
   dashboardSidebar(),
   dashboardBody(
     fluidRow(
@@ -11,7 +11,7 @@ ui <- dashboardPage(
           status = "primary",
           solidHeader = TRUE,
           width = 12,
-          tableImportUI("tableImport1"),
+          dataTableImportWidget("tableImport1"),
           verbatimTextOutput("debug")
       )
     )
@@ -19,7 +19,7 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output) {
-  importedData <- callModule(tableImport, "tableImport1")
+  importedData <- importDataTable("tableImport1")
   
   output$debug <- renderPrint({
     print(importedData())
