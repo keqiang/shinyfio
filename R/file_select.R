@@ -19,7 +19,7 @@
     tagList(div(
       class = "input-group",
       tags$label(class = "input-group-btn",
-                 shinyDirButton(
+                 shinyFiles::shinyDirButton(
                    ns("serverDir"),
                    label = label,
                    title = title
@@ -43,7 +43,7 @@
            output,
            session,
            rootFolders) {
-    shinyDirChoose(input, "serverDir", roots = rootFolders)
+    shinyFiles::shinyDirChoose(input, "serverDir", roots = rootFolders)
     
     result <- reactive({
       req(input$serverDir)
@@ -127,7 +127,7 @@ selectServerFolder <-
       class = "input-group",
       tags$label(
         class = "input-group-btn",
-        shinyFilesButton(
+        shinyFiles::shinyFilesButton(
           ns("serverFile"),
           label = label,
           title = title,
@@ -153,11 +153,11 @@ selectServerFolder <-
            output,
            session,
            rootFolders) {
-    shinyFileChoose(input, "serverFile", roots = rootFolders)
+    shinyFiles::shinyFileChoose(input, "serverFile", roots = rootFolders)
     
     result <- reactive({
       req(input$serverFile)
-      parseFilePaths(absoluteServerPaths, input$serverFile)
+      shinyFiles::parseFilePaths(absoluteServerPaths, input$serverFile)
     })
     
     output$selectedFile <- renderUI({
