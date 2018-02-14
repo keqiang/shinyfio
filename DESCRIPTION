@@ -12,5 +12,6 @@ Imports:
   DT,
   shiny,
   readr,
-  shinyFiles
+  shinyFiles,
+  shinyjs
 Remotes: thomasp85/shinyFiles

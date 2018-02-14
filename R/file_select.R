@@ -154,7 +154,7 @@ selectServerFolder <-
            session,
            serverRootFolders) {
     
-    shinyFiles::shinyFileChoose(input, session$ns("serverFile"), roots = serverRootFolders)
+    shinyFiles::shinyFileChoose(input, "serverFile", roots = serverRootFolders)
     
     result <- reactive({
       req(input$serverFile)
@@ -229,7 +229,39 @@ selectServerFile <-
   function(id) {
     ns <- NS(id)
     
-    uiOutput(ns("ui"))
+    tagList(
+      shinyjs::useShinyjs(),
+      shinyjs::hidden(
+        radioButtons(
+          ns("fileLocation"),
+          label = "File Location",
+          choices = c("local", "server"),
+          inline = TRUE,
+          selected = "local"
+        )
+      ),
+      conditionalPanel(
+        paste0(.getJavaScriptInput("fileLocation", ns),
+               " == 'local'"),
+        fileInput(
+          ns("localFile"),
+          label = NULL,
+          accept = c(
+            "text/csv",
+            "text/comma-separated-values",
+            "text/plain",
+            ".csv",
+            ".tsv",
+            ".txt"
+          )
+        )
+      ),
+      conditionalPanel(
+        paste0(.getJavaScriptInput("fileLocation", ns),
+               " == 'server'"),
+        .serverFileSelectUI(ns("serverFile"))
+      )
+    )
   }
 
 
@@ -251,54 +283,11 @@ selectServerFile <-
            fileLocation = c("local", "server", "both"),
            serverRootFolders = c(".")) {
     fileLocation <- match.arg(fileLocation)
-    ns <- session$ns
-    output$ui <- renderUI({
-      if (fileLocation == "both") {
-        tagList(
-          radioButtons(
-            ns("fileLocation"),
-            label = "File Location",
-            choices = c("local", "server"),
-            inline = TRUE,
-            selected = "local"
-          ),
-          conditionalPanel(
-            paste0(.getJavaScriptInput("fileLocation", ns),
-                   " == 'local'"),
-            fileInput(
-              ns("localFile"),
-              label = NULL,
-              accept = c(
-                "text/csv",
-                "text/comma-separated-values",
-                "text/plain",
-                ".csv",
-                ".tsv",
-                ".txt"
-              )
-            )
-          ),
-          conditionalPanel(
-            paste0(.getJavaScriptInput("fileLocation", ns),
-                   " == 'server'"),
-            .serverFileSelectUI(ns("serverFile"))
-          )
-        )
-      } else if (fileLocation == "local") {
-        fileInput(
-          ns("localFile"),
-          label = NULL,
-          accept = c(
-            "text/csv",
-            "text/comma-separated-values",
-            "text/plain",
-            ".csv",
-            ".tsv",
-            ".txt"
-          )
-        )
-      } else {
-        .serverFileSelectUI(ns("serverFile"))
+    observe({
+      if (fileLocation == "server") {
+        updateRadioButtons(session, "fileLocation", selected = "server")
+      } else if (fileLocation == "both") {
+        shinyjs::show("fileLocation")
       }
     })
     
@@ -318,19 +307,12 @@ selectServerFile <-
     })
     
     result <- reactive({
-      if (fileLocation == "local") {
-        values$localFile
-      } else if (fileLocation == "server") {
+      req(input$fileLocation)
+      if (input$fileLocation == "server") {
         values$serverFile
       } else {
-        req(input$fileLocation)
-        if (input$fileLocation == "server") {
-          values$serverFile
-        } else {
-          values$localFile
-        }
+        values$localFile
       }
-
     })
     
     return(result)
