@@ -243,7 +243,6 @@ selectServerFile <-
 #' @param fileLocation a parameter indicates where you want ther users to navigate the files.
 #' @return the selected file path as a reactive value
 .fileSelect <- function(input, output, session, fileLocation = c("local", "server", "both")) {
-  stopifnot(fileLocation %in% c("local", "server", "both"))
   ns <- session$ns
   output$ui <- renderUI({
     if (fileLocation == "both") {
