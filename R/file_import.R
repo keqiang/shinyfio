@@ -14,7 +14,7 @@
     
     tagList(
       .fileSelectUI(ns("fileSelect")),
-    
+      
       # checkbox to indicate if the original file has column headers
       checkboxInput(ns("hasColumnHeaders"), label = "Has column headers", value = TRUE),
       # combobox to specify quote type
@@ -51,54 +51,60 @@
 #' @param input Shiny module inputs
 #' @param ouput Shiny module outputs
 #' @param session Shiny session
-#' @param fileLocation a parameter indicates where you want ther users to navigate the files.
+#' @param fileLocation specify from which location the file should be selected from
+#' @param serverRootFolders the root folders that you want user to navigate. only used when \code{fileLocation} is specified as 'server'
 #' @return the imported data object as a data frame
-.dataTableImport <- function(input, output, session, fileLocation = c("local", "server", "both")) {
-  
-  selectedFile <- callModule(.fileSelect, "fileSelect", fileLocation)
-  
-  # user selected file
-  verifiedSelectedFile <- reactive({
-    req(selectedFile())
-    input$selectedFile
-  })
-  
-  output$fileUploaded <- reactive({
-    req(selectedFile())
-    TRUE
-  })
-  
-  outputOptions(output, "fileUploaded", suspendWhenHidden = FALSE)
-  
-  # the current data frame imported regarding to the user specified options
-  previewTibble <- reactive({
-    read_func <-
-      ifelse(input$separator == ",", readr::read_csv, readr::read_tsv)
+.dataTableImport <-
+  function(input,
+           output,
+           session,
+           fileLocation = c("local", "server", "both"),
+           serverRootFolders = c(".")) {
+    fileLocation <- match.arg(fileLocation)
+    selectedFile <-
+      callModule(.fileSelect, "fileSelect", fileLocation, serverRootFolders)
     
-    read_func(
-      verifiedSelectedFile()$datapath,
-      col_names = input$hasColumnHeaders,
-      quote = input$quoteType,
-      n_max = 50
-    )
-  })
-  
-  callModule(.dataTablePreview, "dataTablePreview", previewTibble)
-  
-  # return the imported data only when the import button clicked
-  dataToBeImported <- eventReactive(input$importButton, {
-    read_func <-
-      ifelse(input$separator == ",", readr::read_csv, readr::read_tsv)
+    # user selected file
+    verifiedSelectedFile <- reactive({
+      req(selectedFile())
+      selectedFile()
+    })
     
-    read_func(
-      verifiedSelectedFile()$datapath,
-      col_names = input$hasColumnHeaders,
-      quote = input$quoteType
-    )
-  })
-  
-  return(dataToBeImported)
-}
+    output$fileUploaded <- reactive({
+      req(selectedFile())
+      TRUE
+    })
+    
+    outputOptions(output, "fileUploaded", suspendWhenHidden = FALSE)
+    
+    # the current data frame imported regarding to the user specified options
+    previewTibble <- reactive({
+      read_func <-
+        ifelse(input$separator == ",", readr::read_csv, readr::read_tsv)
+      read_func(
+        verifiedSelectedFile()$datapath,
+        col_names = input$hasColumnHeaders,
+        quote = input$quoteType,
+        n_max = 50
+      )
+    })
+    
+    callModule(.dataTablePreview, "dataTablePreview", previewTibble)
+    
+    # return the imported data only when the import button clicked
+    dataToBeImported <- eventReactive(input$importButton, {
+      read_func <-
+        ifelse(input$separator == ",", readr::read_csv, readr::read_tsv)
+      
+      read_func(
+        verifiedSelectedFile()$datapath,
+        col_names = input$hasColumnHeaders,
+        quote = input$quoteType
+      )
+    })
+    
+    return(dataToBeImported)
+  }
 
 .dataTablePreviewUI <- function(id) {
   ns <- NS(id)
@@ -143,8 +149,16 @@ dataTableImportWidget <-
 #' This function must be called within a Shiny server function
 #'
 #' @param id The same ID as used in the matching call to \code{dataTableImportWidget}
+#' @param fileLocation specify from which location the file should be selected from
+#' @param serverRootFolders the root folders that you want your users to navigate.
+#' This parameter will only be used when \code{fileLocation} is specified as 'server' or 'both' and must be a named vector 
+#' such as c("server-dir1" = "/path/on/server/1/", "server-dir2" = "/path/on/server/2/")
 #' @return the imported data object as a reactive data frame
 #' @export
-importDataTable <- function(id, fileLocation = c("local", "server", "either")) {
-  callModule(.dataTableImport, id, fileLocation)
-}
+importDataTable <-
+  function(id,
+           fileLocation = c("local", "server", "both"),
+           serverRootFolders = c(wd = ".")) {
+    fileLocation <- match.arg(fileLocation)
+    callModule(.dataTableImport, id, fileLocation, serverRootFolders)
+  }
