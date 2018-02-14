@@ -9,7 +9,7 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  # specifying fileLocation to "server" or "both" to provide users the option to import a data table from server file
+  # specifying fileLocation as "server" or "both" to provide users the option to import a data table from server file
   importedData <- importDataTable("tableImport1", fileLocation = "both")
   
   output$debug <- renderPrint({
