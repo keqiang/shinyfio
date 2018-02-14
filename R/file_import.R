@@ -1,15 +1,14 @@
-#' UI to import a data table from file
+#' Internal implementation of table import widget UI
 #'
-#' This UI component provides UI for user to select a local file
-#' and specify options to parse the file to a table. The preview panel will
-#' update accordingly so user will be able know if they are doing
-#' things correctly or not.
+#' This widget provides UI for user to select a local file
+#' and specify options to parse the file to a data table. The preview panel will
+#' update accordingly so users will be able know if they are doing
+#' things correctly.
 #'
-#' @param id the UI id for this module
-#' @param label the label of this UI
+#' @param id the UI id for this widget
+#' @param label the label of this widget
 #' @return A tagList that includes all the UI components
-#' @export
-tableImportUI <- function(id, label = "Comma or Tab Separated File") {
+.dataTableImportUI <- function(id, label = "Comma or Tab Separated File") {
   ns <- NS(id)
   
   tagList(
@@ -56,10 +55,8 @@ tableImportUI <- function(id, label = "Comma or Tab Separated File") {
 #' @param input Shiny module inputs
 #' @param label Shiny module outputs
 #' @param session Shiny session
-#' @param stringsAsFactors to indicate if the strings should be imported as factors
 #' @return the imported data object as a data frame
-#' @export
-tableImport <- function(input, output, session, stringsAsFactors = FALSE) {
+.dataTableImport <- function(input, output, session) {
   
   # user selected file
   verifiedSelectedFile <- reactive({
@@ -129,4 +126,30 @@ tableImport <- function(input, output, session, stringsAsFactors = FALSE) {
 
 .getJavaScriptOutput <- function(id, ns) {
   return(paste0("output['", ns(id), "']"))
+}
+
+#' UI widget to import a data table as data frame from file
+#'
+#' This widget provides UI for the user to select a local file
+#' and specify options to parse the file to a data table. The preview panel will
+#' update accordingly so users will be able to know if they are doing
+#' things correctly.
+#'
+#' @param id the UI id for this widget
+#' @param label the label of this widget
+#' @return A tagList that includes all the UI components
+#' @export
+dataTableImportWidget <- function(id, label = "Comma or Tab Separated File") {
+  .dataTableImportUI(id, label)
+}
+
+#' Serve logic for dataTableImportWidget. This function must be called within a Shiny server function
+#'
+#' Server logic that reacts to user input such as updating the preview table.
+#'
+#' @param id The same ID as used in the matching call to \code{dataTableImportWidget}
+#' @return the imported data object as a data frame
+#' @export
+importDataTable <- function(id) {
+  callModule(.dataTableImport, id)
 }
