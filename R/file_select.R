@@ -101,8 +101,9 @@ serverFolderSelectWidget <-
 #' @export
 selectServerFolder <-
   function(id,
-           serverRootFolders) {
-    callModule(.serverFolderSelect, id, serverRootFolders)
+           serverRootFolders,
+           session = .getSession()) {
+    callModule(.serverFolderSelect, session$ns(id), serverRootFolders)
   }
 
 # UI widget for server file selection -------------------------------------
@@ -211,8 +212,9 @@ serverFileSelectWidget <-
 #' @export
 selectServerFile <-
   function(id,
-           serverRootFolders) {
-    callModule(.serverFileSelect, id, serverRootFolders)
+           serverRootFolders,
+           session = .getSession()) {
+    callModule(.serverFileSelect, session$ns(id), serverRootFolders)
   }
 
 # UI widget for file selection --------------------------------------------
@@ -343,7 +345,8 @@ fileSelectWidget <- function(id) {
 #' @export
 selectFile <-
   function(id,
-           fileLocation = c("local", "server", "both")) {
+           fileLocation = c("local", "server", "both"),
+           session = .getSession()) {
     fileLocation <- match.arg(fileLocation)
-    callModule(fileSelect, id, fileLocation)
+    callModule(fileSelect, session$ns(id), fileLocation)
   }

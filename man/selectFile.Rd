@@ -4,7 +4,8 @@
 \alias{selectFile}
 \title{Shiny serve logic for \code{fileSelectWidget}.}
 \usage{
-selectFile(id, fileLocation = c("local", "server", "both"))
+selectFile(id, fileLocation = c("local", "server", "both"),
+  session = .getSession())
 }
 \arguments{
 \item{id}{The same ID as used in the matching call to \code{fileSelectWidget}}

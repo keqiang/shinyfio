@@ -158,7 +158,8 @@ dataTableImportWidget <-
 importDataTable <-
   function(id,
            fileLocation = c("local", "server", "both"),
-           serverRootFolders = c(wd = ".")) {
+           serverRootFolders = c(wd = "."),
+           session = .getSession()) {
     fileLocation <- match.arg(fileLocation)
-    callModule(.dataTableImport, id, fileLocation, serverRootFolders)
+    callModule(.dataTableImport, session$ns(id), fileLocation, serverRootFolders)
   }

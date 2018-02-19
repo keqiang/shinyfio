@@ -5,7 +5,7 @@
 \title{Shiny serve logic for \code{dataTableImportWidget}.}
 \usage{
 importDataTable(id, fileLocation = c("local", "server", "both"),
-  serverRootFolders = c(wd = "."))
+  serverRootFolders = c(wd = "."), session = .getSession())
 }
 \arguments{
 \item{id}{The same ID as used in the matching call to \code{dataTableImportWidget}}

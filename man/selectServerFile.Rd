@@ -4,7 +4,7 @@
 \alias{selectServerFile}
 \title{Shiny serve logic for \code{serverFileSelectWidget}.}
 \usage{
-selectServerFile(id, serverRootFolders)
+selectServerFile(id, serverRootFolders, session = .getSession())
 }
 \arguments{
 \item{id}{The same ID as used in the matching call to \code{serverFileSelectWidget}}

@@ -4,7 +4,7 @@
 \alias{selectServerFolder}
 \title{Shiny serve logic for \code{serverFolderSelectWidget}.}
 \usage{
-selectServerFolder(id, serverRootFolders)
+selectServerFolder(id, serverRootFolders, session = .getSession())
 }
 \arguments{
 \item{id}{The same ID as used in the matching call to \code{serverFolderSelectWidget}}
