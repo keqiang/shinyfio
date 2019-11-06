@@ -1,4 +1,5 @@
 #' @import shiny
+#' @importFrom glue glue
 
 #' @export
 C_FILE_LOCATION_LOCAL <- "Local"
@@ -21,14 +22,14 @@ internalFileSelectUI <- function(id) {
       selected = C_FILE_LOCATION_LOCAL
     ),
     conditionalPanel( # if selecting from a local file
-      stringr::str_c(getJavaScriptInputId("fileLocation", ns), " == '", C_FILE_LOCATION_LOCAL, "'"),
+      glue(getJavaScriptInputId("fileLocation", ns), " === ", "'{C_FILE_LOCATION_LOCAL}'"),
       fileInput(
         ns("localFile"),
         label = NULL
       )
     ),
     conditionalPanel( # if selecting from the remote server (where Shiny server runs)
-      stringr::str_c(getJavaScriptInputId("fileLocation", ns), " == '", C_FILE_LOCATION_SERVER, "'"),
+      glue(getJavaScriptInputId("fileLocation", ns), " === ", "'{C_FILE_LOCATION_SERVER}'"),
       serverFileSelectWidget(ns("serverFile")),
       tags$br(),
       tags$br() # two line breaks to make it looks consitent with local file chooser

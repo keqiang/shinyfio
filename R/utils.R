@@ -1,9 +1,9 @@
-#' @importFrom stringr str_c str_interp
+#' @importFrom glue glue
 
 getJavaScriptOutputId <- function(id, ns) {
-  str_interp("output['${ns(id)}']")
+  glue("output['{ns(id)}']")
 }
 
 getJavaScriptInputId <- function(id, ns) {
-  str_interp("input['${ns(id)}']")
+  glue("input['{ns(id)}']")
 }

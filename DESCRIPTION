@@ -11,8 +11,8 @@ Encoding: UTF-8
 LazyData: true
 Imports:
   shiny,
-  stringr,
-  DT,
   shinyFiles,
-  shinyjs
+  shinyjs,
+  DT,
+  glue
 RoxygenNote: 6.1.1

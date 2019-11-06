@@ -13,7 +13,7 @@ selectFile(id, fileLocation = c(C_FILE_LOCATION_LOCAL,
 
 \item{fileLocation}{a parameter indicates where you want ther users to navigate the files.}
 
-\item{serverRootDirectories}{the root directories that you allow your app users to navigate under}
+\item{serverRootDirectories}{the root directories that your app users are allowed to navigate and must it be a named vector.}
 }
 \value{
 the selected file path as a reactive value
