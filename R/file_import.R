@@ -1,6 +1,5 @@
 #' @importFrom readr read_csv read_tsv
 #' @importFrom magrittr %>%
-#'
 
 #' @export
 C_DATA_TYPE_TABLE <- "Table"
@@ -222,7 +221,7 @@ internalFileImport <- function(input, output, session,
             )
         }
 
-        if (input$dataType == "data.matrix") {
+        if (input$dataType == C_DATA_TYPE_MATRIX) {
           rowNames <- dt[[1]]
 
           dataPart <- dt[2:ncol(dt)]
@@ -259,12 +258,11 @@ internalFileImport <- function(input, output, session,
   result <- eventReactive(importedData(), {
     dt <- importedData()
     req(dt)
-    newDataObject(
+    list(
       data = dt,
       type = input$dataType,
       name = tools::file_path_sans_ext(selectedFile()$name),
-      size = dim(dt),
-      source = "File"
+      size = dim(dt)
     )
   })
 

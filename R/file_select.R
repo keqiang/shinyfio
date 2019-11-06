@@ -11,29 +11,29 @@ C_FILE_LOCATION_BOTH <- "Both"
 # A Shiny module implementation of the file selection widget
 internalFileSelectUI <- function(id, label) {
   ns <- NS(id)
-  
+
   tagList(
     shinyjs::useShinyjs(),
     radioButtons( # radio buttons to specify file location
       ns("fileLocation"),
       label = "File Location",
-      choices = c(C_FILE_LOCATION_LOCAL, C_FILE_LOCATION_SERVER),
+      choices = c(C_FILE_LOCATION_SERVER, C_FILE_LOCATION_LOCAL),
       inline = TRUE,
-      selected = C_FILE_LOCATION_LOCAL
+      selected = C_FILE_LOCATION_SERVER
     ),
     inputLabel(label),
+    conditionalPanel( # if selecting from the remote server (where Shiny server runs)
+      glue(getJavaScriptInputId("fileLocation", ns), " === ", "'{C_FILE_LOCATION_SERVER}'"),
+      serverFileSelectWidget(ns("serverFile")),
+      tags$br(),
+      tags$br() # two line breaks to make it looks consitent with local file chooser
+    ),
     conditionalPanel( # if selecting from a local file
       glue(getJavaScriptInputId("fileLocation", ns), " === ", "'{C_FILE_LOCATION_LOCAL}'"),
       fileInput(
         ns("localFile"),
         label = NULL
       )
-    ),
-    conditionalPanel( # if selecting from the remote server (where Shiny server runs)
-      glue(getJavaScriptInputId("fileLocation", ns), " === ", "'{C_FILE_LOCATION_SERVER}'"),
-      serverFileSelectWidget(ns("serverFile")),
-      tags$br(),
-      tags$br() # two line breaks to make it looks consitent with local file chooser
     )
   )
 }
@@ -46,26 +46,26 @@ internalFileSelect <- function(input,
   fileLocation <- match.arg(fileLocation)
   observe({
     shinyjs::hide("fileLocation") # hide the radio buttons when only one option is specified by from the server function
-    if (fileLocation == C_FILE_LOCATION_SERVER) {
-      updateRadioButtons(session, "fileLocation", selected = "server")
+    if (fileLocation == C_FILE_LOCATION_LOCAL) {
+      updateRadioButtons(session, "fileLocation", selected = C_FILE_LOCATION_LOCAL)
     } else if (fileLocation == C_FILE_LOCATION_BOTH) { # only enable the input when both was specified
       shinyjs::show("fileLocation")
     }
   })
   serverFile <- selectServerFile("serverFile", serverRootDirectories)
-  
+
   values <- reactiveValues(serverFile = NULL, localFile = NULL)
-  
+
   observe({
     req(input$localFile)
     values$localFile <- as.list(input$localFile)
   })
-  
+
   observe({
     req(serverFile())
     values$serverFile <- serverFile()
   })
-  
+
   result <- reactive({
     req(input$fileLocation)
     if (input$fileLocation == C_FILE_LOCATION_SERVER) {
@@ -74,7 +74,7 @@ internalFileSelect <- function(input,
       values$localFile
     }
   })
-  
+
   return(result)
 }
 
