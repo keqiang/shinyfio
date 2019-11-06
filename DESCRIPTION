@@ -1,10 +1,11 @@
 Package: shinywidgets
 Type: Package
-Title: This package includes some commonly used Shiny UI utilities such as a file uploader with data previewing capability.
+Title: This package includes some commonly used Shiny UI utility components such as a file uploader with data previewing capability.
 Version: 0.1.0
 Author: Keqiang Li
 Maintainer: Keqiang Li <keqianglli@gmail.com>
-Description: Shiny base package comes with a handful set of UI widgets, but often we need to build a little more complex UI based on these base UI components. For example, a file uploader, with options to specify file separater and a previewing window. We build this package to make these commonly used UI components available so you get more time writing the criticl part of you Shiny application.
+Description: Shiny base package comes with a handful set of UI widgets, but often we need to build a little more complex UI based on these base UI components.
+    For example, a file uploader, with options to specify file separater and a previewing window. We build this package to make these commonly used UI components available so you get more time writing the criticl part of you Shiny application.
 License: MIT
 Encoding: UTF-8
 LazyData: true
