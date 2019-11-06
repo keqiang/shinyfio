@@ -5,7 +5,6 @@ testFileSelectInModuleUI <- function(id) {
   ns <- NS(id)
   tagList(
     fileSelectWidget(ns("fileSelect")),
-    tags$hr(),
     verbatimTextOutput(ns("debug"))
   )
 }

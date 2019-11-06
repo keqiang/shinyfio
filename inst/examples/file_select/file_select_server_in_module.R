@@ -5,7 +5,7 @@ testServerFileSelectInModuleUI <- function(id) {
   ns <- NS(id)
   tagList(
     serverFileSelectWidget(ns("serverFile")),
-    tags$hr(),
+    tags$br(),
     verbatimTextOutput(ns("debug"))
   )
 }

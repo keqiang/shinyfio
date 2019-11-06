@@ -32,7 +32,8 @@ internalFileSelectUI <- function(id) {
     conditionalPanel( # if selecting from the remote server (where Shiny server runs)
       stringr::str_c(getJavaScriptInputId("fileLocation", ns), " == '", C_FILE_LOCATION_SERVER, "'"),
       serverFileSelectWidget(ns("serverFile")),
-      tags$br() # line break to make it looks consitent with local file chooser
+      tags$br(),
+      tags$br() # two line breaks to make it looks consitent with local file chooser
     )
   )
 }

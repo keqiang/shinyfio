@@ -4,7 +4,6 @@ library(shinywidgets)
 ui <- fluidPage(
   wellPanel(
     fileSelectWidget("fileSelect"),
-    tags$hr(),
     verbatimTextOutput("debug")
   )
 )
