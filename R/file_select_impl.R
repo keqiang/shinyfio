@@ -13,14 +13,12 @@ internalFileSelectUI <- function(id) {
   
   tagList(
     shinyjs::useShinyjs(),
-    shinyjs::hidden( # hide the radio buttons when only one option is specified by from the server function
-      radioButtons( # radio buttons to specify file location
-        ns("fileLocation"),
-        label = "File Location",
-        choices = c(C_FILE_LOCATION_LOCAL, C_FILE_LOCATION_SERVER),
-        inline = TRUE,
-        selected = C_FILE_LOCATION_LOCAL
-      )
+    radioButtons( # radio buttons to specify file location
+      ns("fileLocation"),
+      label = "File Location",
+      choices = c(C_FILE_LOCATION_LOCAL, C_FILE_LOCATION_SERVER),
+      inline = TRUE,
+      selected = C_FILE_LOCATION_LOCAL
     ),
     conditionalPanel( # if selecting from a local file
       stringr::str_c(getJavaScriptInputId("fileLocation", ns), " == '", C_FILE_LOCATION_LOCAL, "'"),
@@ -45,6 +43,7 @@ internalFileSelect <- function(input,
                                serverRootDirectories = NULL) {
   fileLocation <- match.arg(fileLocation)
   observe({
+    shinyjs::hide("fileLocation") # hide the radio buttons when only one option is specified by from the server function
     if (fileLocation == C_FILE_LOCATION_SERVER) {
       updateRadioButtons(session, "fileLocation", selected = "server")
     } else if (fileLocation == C_FILE_LOCATION_BOTH) { # only enable the input when both was specified
