@@ -2,18 +2,17 @@
 % Please edit documentation in R/file_select.R
 \name{fileSelectWidget}
 \alias{fileSelectWidget}
-\title{Shiny UI widget to select a file}
+\title{A Shiny UI widget used to select a file}
 \usage{
 fileSelectWidget(id)
 }
 \arguments{
-\item{id}{the UI id for this widget}
+\item{id}{ID of this UI component}
 }
 \value{
-A tagList that includes all the UI components
+Return the UI component
 }
 \description{
-This widget provides UI for the user to select a file that is from local machine or on the server.
-When user clicks the button, a modal dialog will show up for user
-to navigate the file system.
+This module provides a UI component for the user to select a file that is from local file system or on the server.
+When user clicks the button, a modal dialog will show up for user to navigate the file system.
 }

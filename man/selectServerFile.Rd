@@ -4,12 +4,13 @@
 \alias{selectServerFile}
 \title{Shiny serve logic for \code{serverFileSelectWidget}.}
 \usage{
-selectServerFile(id, serverRootFolders, session = .getSession())
+selectServerFile(id, serverRootDirectories,
+  session = getDefaultReactiveDomain())
 }
 \arguments{
 \item{id}{The same ID as used in the matching call to \code{serverFileSelectWidget}}
 
-\item{serverRootFolders}{the root folders that you want user to navigate and must be a named vector.}
+\item{serverRootDirectories}{the root folders that you want user to navigate and must be a named vector.}
 }
 \value{
 the selected server file path as a reactive value

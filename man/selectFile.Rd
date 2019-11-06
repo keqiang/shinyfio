@@ -2,10 +2,11 @@
 % Please edit documentation in R/file_select.R
 \name{selectFile}
 \alias{selectFile}
-\title{Shiny serve logic for \code{fileSelectWidget}.}
+\title{Select a file}
 \usage{
-selectFile(id, fileLocation = c("local", "server", "both"),
-  session = .getSession())
+selectFile(id, fileLocation = c(C_FILE_LOCATION_LOCAL,
+  C_FILE_LOCATION_SERVER, C_FILE_LOCATION_BOTH),
+  serverRootDirectories = NULL, session = getDefaultReactiveDomain())
 }
 \arguments{
 \item{id}{The same ID as used in the matching call to \code{fileSelectWidget}}
