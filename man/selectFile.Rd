@@ -9,7 +9,7 @@ selectFile(id, fileLocation = c(C_FILE_LOCATION_LOCAL,
   serverRootDirectories = NULL)
 }
 \arguments{
-\item{id}{The same ID as used in the matching call to \code{fileSelectWidget}}
+\item{id}{The same ID as used in the matching call to \link{fileSelectWidget}}
 
 \item{fileLocation}{a parameter indicates where you want ther users to navigate the files.}
 

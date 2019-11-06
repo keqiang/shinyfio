@@ -103,9 +103,9 @@ fileSelectWidget <- function(id) {
 #' Server logic that reacts to user input such as updating the current selected file path.
 #' This function must be called within a Shiny server function
 #'
-#' @param id The same ID as used in the matching call to \code{fileSelectWidget}
+#' @param id The same ID as used in the matching call to \link{fileSelectWidget}
 #' @param fileLocation a parameter indicates where you want ther users to navigate the files.
-#' @param serverRootDirectories the root directories that you allow your app users to navigate under
+#' @param serverRootDirectories the root directories that your app users are allowed to navigate and must it be a named vector.
 #' @return the selected file path as a reactive value
 #' @export
 selectFile <- function(id,
