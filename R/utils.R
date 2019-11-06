@@ -7,3 +7,12 @@ getJavaScriptOutputId <- function(id, ns) {
 getJavaScriptInputId <- function(id, ns) {
   glue("input['{ns(id)}']")
 }
+
+inputLabel <- function(label) {
+  if (!is.null(label)) {
+    div(
+      tags$strong(label),
+      style = "padding-bottom: 5px;"
+    )
+  }
+}

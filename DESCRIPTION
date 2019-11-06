@@ -14,5 +14,9 @@ Imports:
   shinyFiles,
   shinyjs,
   DT,
-  glue
+  glue,
+  readr,
+  magrittr,
+  dplyr,
+  tidyr
 RoxygenNote: 6.1.1

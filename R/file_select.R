@@ -9,7 +9,7 @@ C_FILE_LOCATION_SERVER <- "Server"
 C_FILE_LOCATION_BOTH <- "Both"
 
 # A Shiny module implementation of the file selection widget
-internalFileSelectUI <- function(id) {
+internalFileSelectUI <- function(id, label) {
   ns <- NS(id)
   
   tagList(
@@ -21,6 +21,7 @@ internalFileSelectUI <- function(id) {
       inline = TRUE,
       selected = C_FILE_LOCATION_LOCAL
     ),
+    inputLabel(label),
     conditionalPanel( # if selecting from a local file
       glue(getJavaScriptInputId("fileLocation", ns), " === ", "'{C_FILE_LOCATION_LOCAL}'"),
       fileInput(
@@ -85,8 +86,8 @@ internalFileSelect <- function(input,
 #' @param id ID of this UI component
 #' @return Return the UI component
 #' @export
-fileSelectWidget <- function(id) {
-  internalFileSelectUI(id)
+fileSelectWidget <- function(id, label = NULL) {
+  internalFileSelectUI(id, label)
 }
 
 #' Select a file
