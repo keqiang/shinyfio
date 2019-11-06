@@ -26,17 +26,7 @@ internalFileSelectUI <- function(id) {
       stringr::str_c(getJavaScriptInputId("fileLocation", ns), " == '", C_FILE_LOCATION_LOCAL, "'"),
       fileInput(
         ns("localFile"),
-        label = NULL,
-        accept = c(
-          "text/csv",
-          "text/comma-separated-values",
-          "text/plain",
-          ".csv",
-          ".tsv",
-          ".txt",
-          ".narrowPeak",
-          ".broadPeak"
-        )
+        label = NULL
       )
     ),
     conditionalPanel( # if selecting from the remote server (where Shiny server runs)
