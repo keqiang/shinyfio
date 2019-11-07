@@ -48,10 +48,11 @@ internalFileImportUI <- function(id,
     # a preview table to help the user get the right format
     conditionalPanel(
       condition = getJavaScriptOutputId("fileUploaded", ns),
-      wellPanel(DT::dataTableOutput(ns("previewTable")))
+      dataTablePreviewWidget(ns("previewTable"), enableOptionToShowAllRows = FALSE)
     ),
 
     textOutput(ns("status")),
+    tags$br(),
     actionButton(ns("importButton"), "Import")
   )
 }
@@ -152,32 +153,7 @@ internalFileImport <- function(input, output, session,
     dt
   })
 
-  output$previewTable <- DT::renderDataTable({
-    dt <- previewData()
-    req(dt)
-    if (input$tableHasHeader) {
-      DT::datatable(
-        dt,
-        options = list(
-          scrollX = TRUE,
-          dom = "t",
-          bSort = FALSE
-        ),
-        selection = "none"
-      )
-    } else {
-      DT::datatable(
-        dt,
-        colnames = rep("", ncol(dt)),
-        options = list(
-          scrollX = TRUE,
-          dom = "t",
-          bSort = FALSE
-        ),
-        selection = "none"
-      )
-    }
-  })
+  previewDataTable("previewTable", previewData)
 
   importedData <- eventReactive(input$importButton, {
     shinyjs::disable("importButton")
@@ -288,7 +264,7 @@ fileImportWidget <- function(id,
   internalFileImportUI(id, dataType, enableDataTypeSelection)
 }
 
-#' Call this function in Shiny server logic to activate \link{fileImportWidget}.
+#' Call this function in Shiny server logic to activate \link{fileImportWidget}
 #'
 #' @param id The same ID as used in the matching call to \link{fileImportWidget}
 #' @param fileLocation Specify from which location the file should be selected from

@@ -2,7 +2,7 @@
 % Please edit documentation in R/file_import.R
 \name{importFile}
 \alias{importFile}
-\title{Call this function in Shiny server logic to activate \link{fileImportWidget}.}
+\title{Call this function in Shiny server logic to activate \link{fileImportWidget}}
 \usage{
 importFile(id, fileLocation = c(C_FILE_LOCATION_BOTH,
   C_FILE_LOCATION_LOCAL, C_FILE_LOCATION_SERVER),
@@ -22,5 +22,5 @@ This parameter will only be used when \code{fileLocation} is specified as
 The imported data as the specified type
 }
 \description{
-Call this function in Shiny server logic to activate \link{fileImportWidget}.
+Call this function in Shiny server logic to activate \link{fileImportWidget}
 }

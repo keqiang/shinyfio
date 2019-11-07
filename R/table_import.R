@@ -82,31 +82,6 @@ internalDataTableImport <- function(input,
   return(dataToBeImported)
 }
 
-internalDataTablePreviewUI <- function(id) {
-  ns <- NS(id)
-
-  tagList(
-    DT::dataTableOutput(ns("previewTable")),
-    checkboxInput(ns("showAllData"), label = "Show all", value = FALSE)
-  )
-}
-
-internalDataTablePreview <- function(input, output, session, dataTable) {
-  displayData <- reactive({
-    if (input$showAllData) {
-      dataTable()
-    } else {
-      head(dataTable())
-    }
-  })
-
-  output$previewTable <- DT::renderDataTable(
-    displayData(),
-    options = list(scrollX = TRUE),
-    selection = "none"
-  )
-}
-
 #' Shiny UI widget to import a data table as data frame from file
 #'
 #' This widget provides UI for the user to select a file
