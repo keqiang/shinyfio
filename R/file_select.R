@@ -97,7 +97,7 @@ fileSelectWidget <- function(id, label = NULL) {
 #'
 #' @param id The same ID as used in the matching call to \link{fileSelectWidget}
 #' @param fileLocation a parameter indicates where you want ther users to navigate the files.
-#' @param serverRootDirectories the root directories that your app users are allowed to navigate and must it be a named vector.
+#' @param serverRootDirectories the root directories that your app users are allowed to navigate and it must be a named vector.
 #' @return the selected file path as a reactive value
 #' @export
 selectFile <- function(id,

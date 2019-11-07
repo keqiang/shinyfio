@@ -9,7 +9,7 @@ selectServerDirectory(id, serverRootDirectories)
 \arguments{
 \item{id}{The same ID as used in the matching call to \code{serverDirectorySelectWidget}}
 
-\item{serverRootDirectories}{the root directories that your app users are allowed to navigate and must it be a named vector.}
+\item{serverRootDirectories}{the root directories that your app users are allowed to navigate and it must be a named vector.}
 }
 \value{
 the selected server directory path as a reactive value

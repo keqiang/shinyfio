@@ -4,18 +4,18 @@
 \alias{serverFileSelectWidget}
 \title{Shiny UI widget to select a file on the server}
 \usage{
-serverFileSelectWidget(id, label = "Please select a file",
+serverFileSelectWidget(id, title = "Please select a file",
   buttonLabel = "Browse...")
 }
 \arguments{
-\item{id}{the UI id for this widget}
+\item{id}{ID of this UI widget}
 
-\item{label}{the label of this widget}
+\item{title}{Title of the popup dialog}
 
-\item{buttonLabel}{the label of the button}
+\item{buttonLabel}{Label of the button}
 }
 \value{
-A tagList that includes all the UI components
+The widget
 }
 \description{
 This widget provides UI for the user to select a server file

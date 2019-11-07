@@ -293,7 +293,7 @@ fileImportWidget <- function(id,
 #' @param id The same ID as used in the matching call to \link{fileImportWidget}
 #' @param fileLocation Specify from which location the file should be selected from
 #' @param serverRootDirectories The root directories that your app users are allowed to navigate.
-#'     It must it be a named vector such as \code{c("server-dir1" = "/path/on/server/1/", "server-dir2" = "/path/on/server/2/")}.
+#'     It must be a named vector such as \code{c("server-dir1" = "/path/on/server/1/", "server-dir2" = "/path/on/server/2/")}.
 #'     This parameter will only be used when \code{fileLocation} is specified as
 #'     \code{C_FILE_LOCATION_SERVER} or \code{C_FILE_LOCATION_BOTH}
 #' @return The imported data as the specified type

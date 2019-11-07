@@ -9,10 +9,10 @@ selectServerFile(id, serverRootDirectories)
 \arguments{
 \item{id}{The same ID as used in the matching call to \code{serverFileSelectWidget}}
 
-\item{serverRootDirectories}{the root directories that your app users are allowed to navigate and must it be a named vector.}
+\item{serverRootDirectories}{Root directories that your app users are allowed to navigate and it must be a named vector.}
 }
 \value{
-the selected server file path as a reactive value
+The selected server file path as a reactive value
 }
 \description{
 Server logic that reacts to user input such as updating the current selected file path.

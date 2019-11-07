@@ -67,7 +67,7 @@ serverDirectorySelectWidget <- function(id, label = "Please select a folder", bu
 #' This function must be called within a Shiny server function
 #'
 #' @param id The same ID as used in the matching call to \code{serverDirectorySelectWidget}
-#' @param serverRootDirectories the root directories that your app users are allowed to navigate and must it be a named vector.
+#' @param serverRootDirectories the root directories that your app users are allowed to navigate and it must be a named vector.
 #' @return the selected server directory path as a reactive value
 #' @export
 selectServerDirectory <- function(id, serverRootDirectories) {

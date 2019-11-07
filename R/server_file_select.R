@@ -53,13 +53,13 @@ internalServerFileSelect <- function(input, output, session, serverRootDirectori
 #' When user clicks the button, a modal dialog will show up for user
 #' to navigate the server file system.
 #'
-#' @param id the UI id for this widget
-#' @param label the label of this widget
-#' @param buttonLabel the label of the button
-#' @return A tagList that includes all the UI components
+#' @param id ID of this UI widget
+#' @param title Title of the popup dialog
+#' @param buttonLabel Label of the button
+#' @return The widget
 #' @export
-serverFileSelectWidget <- function(id, label = "Please select a file", buttonLabel = "Browse...") {
-  internalServerFileSelectUI(id, label, buttonLabel)
+serverFileSelectWidget <- function(id, title = "Please select a file", buttonLabel = "Browse...") {
+  internalServerFileSelectUI(id, title, buttonLabel)
 }
 
 #' Shiny serve logic for \code{serverFileSelectWidget}.
@@ -68,8 +68,8 @@ serverFileSelectWidget <- function(id, label = "Please select a file", buttonLab
 #' This function must be called within a Shiny server function
 #'
 #' @param id The same ID as used in the matching call to \code{serverFileSelectWidget}
-#' @param serverRootDirectories the root directories that your app users are allowed to navigate and must it be a named vector.
-#' @return the selected server file path as a reactive value
+#' @param serverRootDirectories Root directories that your app users are allowed to navigate and it must be a named vector.
+#' @return The selected server file path as a reactive value
 #' @export
 selectServerFile <- function(id, serverRootDirectories) {
   callModule(internalServerFileSelect, id, serverRootDirectories)
