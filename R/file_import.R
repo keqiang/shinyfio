@@ -1,4 +1,3 @@
-#' @importFrom readr read_csv read_tsv
 #' @importFrom magrittr %>%
 
 #' @export
@@ -11,8 +10,8 @@ C_DATA_TYPE_OPTIONS <- c(
   "Matrix (numeric values only)" = C_DATA_TYPE_MATRIX
 )
 
-C_SEPARATOR_TYPE_TAB <- "tab"
-C_SEPARATOR_TYPE_COMMA <- "comma"
+C_SEPARATOR_TYPE_TAB <- "Tab"
+C_SEPARATOR_TYPE_COMMA <- "Comma"
 
 #' Internal implementation of file importing UI
 internalFileImportUI <- function(id,
@@ -43,7 +42,7 @@ internalFileImportUI <- function(id,
     selectInput(
       ns("separatorType"),
       label = "File Separator",
-      choices = c("Tab" = C_SEPARATOR_TYPE_TAB, "Comma" = C_SEPARATOR_TYPE_COMMA)
+      choices = c(C_SEPARATOR_TYPE_TAB, C_SEPARATOR_TYPE_COMMA)
     ),
     # a preview table to help the user get the right format
     conditionalPanel(
@@ -71,7 +70,7 @@ internalFileImport <- function(input, output, session,
   outputOptions(output, "fileUploaded", suspendWhenHidden = FALSE)
 
   fileReadFun <- reactive({
-    ifelse(input$separatorType == C_SEPARATOR_TYPE_TAB, read_tsv, read_csv)
+    ifelse(input$separatorType == C_SEPARATOR_TYPE_TAB, readr::read_tsv, readr::read_csv)
   })
 
   previewData <- reactive({
