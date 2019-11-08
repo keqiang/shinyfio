@@ -1,6 +1,9 @@
 # shinywidgets
 This package includes some commonly used Shiny customized UI widgets such as a file importing widget with data previewing capability.
 
+# A live Shiny app uses modules from this package
+https://keqiangli.shinyapps.io/genemap/
+
 # Installation
 `devtools::install_github("keqiang/shinywidgets")`
 
