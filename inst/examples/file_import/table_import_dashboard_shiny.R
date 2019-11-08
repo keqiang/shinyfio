@@ -7,22 +7,24 @@ ui <- dashboardPage(
   dashboardSidebar(),
   dashboardBody(
     fluidRow(
-      box(title = "Data Import",
-          status = "primary",
-          solidHeader = TRUE,
-          width = 12,
-          dataTableImportWidget("tableImport1"),
-          verbatimTextOutput("debug")
+      box(
+        title = "Data Import",
+        status = "primary",
+        solidHeader = TRUE,
+        width = 12,
+        dataTableImportWidget("tableImport1"),
+        tags$hr(),
+        verbatimTextOutput("debug")
       )
     )
   )
 )
 
 server <- function(input, output) {
-  importedData <- importDataTable("tableImport1")
-  
+  importedData <- importDataTable("tableImport1", fileLocation = C_FILE_LOCATION_LOCAL)
+
   output$debug <- renderPrint({
-    print(importedData())
+    importedData()
   })
 }
 

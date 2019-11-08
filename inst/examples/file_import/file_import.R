@@ -9,7 +9,7 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  importedData <- importFile("fileImport", serverRootDirectories = c("wd" = "."))
+  importedData <- importFile("fileImport", serverRootDirectories = c("wd" = ".."))
 
   output$debug <- renderPrint({
     print(importedData())
