@@ -58,6 +58,7 @@ internalFileImportUI <- function(id,
 
 internalFileImport <- function(input, output, session,
                                fileLocation = c(C_FILE_LOCATION_BOTH, C_FILE_LOCATION_LOCAL, C_FILE_LOCATION_SERVER),
+                               maxNumberOfLines,
                                serverRootDirectories = c(".")) {
   fileLocation <- match.arg(fileLocation)
   selectedFile <- selectFile("fileSelect", fileLocation, serverRootDirectories)
@@ -178,6 +179,7 @@ internalFileImport <- function(input, output, session,
               selectedFile()$datapath,
               trim_ws = TRUE,
               skip = 1,
+              n_max = maxNumberOfLines,
               col_names = FALSE,
               col_types = readr::cols()
             )
@@ -191,6 +193,7 @@ internalFileImport <- function(input, output, session,
             rf(
               selectedFile()$datapath,
               trim_ws = TRUE,
+              n_max = maxNumberOfLines,
               col_names = FALSE,
               col_types = readr::cols()
             )
@@ -267,6 +270,7 @@ fileImportWidget <- function(id,
 #'
 #' @param id The same ID as used in the matching call to \link{fileImportWidget}
 #' @param fileLocation Specify from which location the file should be selected from
+#' @param maxNumberOfLines Import at most this number of lines from the specified file
 #' @param serverRootDirectories The root directories that your app users are allowed to navigate.
 #'     It must be a named vector such as \code{c("server-dir1" = "/path/on/server/1/", "server-dir2" = "/path/on/server/2/")}.
 #'     This parameter will only be used when \code{fileLocation} is specified as
@@ -275,6 +279,7 @@ fileImportWidget <- function(id,
 #' @export
 importFile <- function(id,
                        fileLocation = c(C_FILE_LOCATION_BOTH, C_FILE_LOCATION_LOCAL, C_FILE_LOCATION_SERVER),
+                       maxNumberOfLines = Inf,
                        serverRootDirectories = NULL) {
   fileLocation <- match.arg(fileLocation)
   if (fileLocation != C_FILE_LOCATION_LOCAL) {
@@ -283,5 +288,5 @@ importFile <- function(id,
       stop("Must specify server directories when fileLocation is specified other than 'Local'")
     }
   }
-  callModule(internalFileImport, id, fileLocation, serverRootDirectories)
+  callModule(internalFileImport, id, fileLocation, maxNumberOfLines, serverRootDirectories)
 }
