@@ -4,7 +4,7 @@
 \alias{internalFileImportUI}
 \title{Internal implementation of file importing UI}
 \usage{
-internalFileImportUI(id, dataType = c(C_DATA_TYPE_TABLE,
+internalFileImportUI(id, label = NULL, dataType = c(C_DATA_TYPE_TABLE,
   C_DATA_TYPE_MATRIX), enableDataTypeSelection = TRUE)
 }
 \description{

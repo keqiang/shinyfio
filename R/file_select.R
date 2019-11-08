@@ -14,6 +14,7 @@ internalFileSelectUI <- function(id, label) {
 
   tagList(
     shinyjs::useShinyjs(),
+    inputLabel(label),
     radioButtons( # radio buttons to specify file location
       ns("fileLocation"),
       label = "File Location",
@@ -21,7 +22,6 @@ internalFileSelectUI <- function(id, label) {
       inline = TRUE,
       selected = C_FILE_LOCATION_SERVER
     ),
-    inputLabel(label),
     conditionalPanel( # if selecting from the remote server (where Shiny server runs)
       glue(getJavaScriptInputId("fileLocation", ns), " === ", "'{C_FILE_LOCATION_SERVER}'"),
       serverFileSelectWidget(ns("serverFile")),
@@ -84,6 +84,7 @@ internalFileSelect <- function(input,
 #' When user clicks the button, a modal dialog will show up for user to navigate the file system.
 #'
 #' @param id ID of this UI component
+#' @param label A descriptive label
 #' @return Return the UI component
 #' @export
 fileSelectWidget <- function(id, label = NULL) {

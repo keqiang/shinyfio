@@ -1,7 +1,7 @@
 # A Shiny module implementation of the server file selection widget
 internalServerFileSelectUI <- function(id, title = "Please select a file", buttonLabel = "Browse...") {
   ns <- NS(id)
-  
+
   tagList(
     div(
       class = "input-group",
@@ -23,7 +23,7 @@ internalServerFileSelect <- function(input, output, session, serverRootDirectori
   # serverRootDirectories are the root directories that you would like to grant the users access and it must be a named vector.
   # this is required to enable the shinyFiles to work (similar to callModule)
   shinyFiles::shinyFileChoose(input, "serverFile", roots = serverRootDirectories)
-  
+
   selectedFile <- reactiveVal(NULL) # initially selectd file path is null
   observeEvent(input$serverFile, {
     parsedFilePaths <- shinyFiles::parseFilePaths(serverRootDirectories, input$serverFile)
@@ -32,7 +32,7 @@ internalServerFileSelect <- function(input, output, session, serverRootDirectori
       selectedFile(as.list(parsedFilePaths)) # update the value only when it is not null and is different
     }
   })
-  
+
   output$selectedFileName <- renderUI({ # render the displayed string of the current selected file
     selectedFileVal <- selectedFile()
     tags$input(
@@ -43,7 +43,7 @@ internalServerFileSelect <- function(input, output, session, serverRootDirectori
       readonly = "readonly"
     )
   })
-  
+
   return(selectedFile)
 }
 

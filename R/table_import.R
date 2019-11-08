@@ -6,11 +6,11 @@
 #' things correctly.
 #'
 #' @param id ID of this UI component
-#' @param title Title of the popup dialog
+#' @param label A descriptive label
 #' @return The widget
 #' @export
-dataTableImportWidget <- function(id, title = "Tab or Comma Separated File") {
-  fileImportWidget(id, C_DATA_TYPE_TABLE, FALSE)
+dataTableImportWidget <- function(id, label = NULL) {
+  fileImportWidget(id, label, C_DATA_TYPE_TABLE, FALSE)
 }
 
 #' Call this function in Shiny server logic to activate \link{dataTableImportWidget}.

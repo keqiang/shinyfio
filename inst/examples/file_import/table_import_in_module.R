@@ -11,7 +11,7 @@ testTableImportInModuleUI <- function(id) {
 }
 
 testTableImportInModule <- function(input, output, session) {
-  importedData <- importDataTable("tableImport1", C_FILE_LOCATION_LOCAL)
+  importedData <- importDataTable("tableImport1", serverRootDirectories = c("wd" = ".."))
 
   output$debug <- renderPrint({
     importedData()

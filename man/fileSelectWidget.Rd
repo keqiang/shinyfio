@@ -8,6 +8,8 @@ fileSelectWidget(id, label = NULL)
 }
 \arguments{
 \item{id}{ID of this UI component}
+
+\item{label}{A descriptive label}
 }
 \value{
 Return the UI component

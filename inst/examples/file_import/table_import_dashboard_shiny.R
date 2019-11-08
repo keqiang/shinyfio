@@ -21,7 +21,7 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output) {
-  importedData <- importDataTable("tableImport1", fileLocation = C_FILE_LOCATION_LOCAL)
+  importedData <- importDataTable("tableImport1", serverRootDirectories = c("wd" = ".."))
 
   output$debug <- renderPrint({
     importedData()

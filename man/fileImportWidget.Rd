@@ -4,11 +4,13 @@
 \alias{fileImportWidget}
 \title{Shiny UI widget to import data from a file}
 \usage{
-fileImportWidget(id, dataType = c(C_DATA_TYPE_TABLE, C_DATA_TYPE_MATRIX),
-  enableDataTypeSelection = TRUE)
+fileImportWidget(id, label = NULL, dataType = c(C_DATA_TYPE_TABLE,
+  C_DATA_TYPE_MATRIX), enableDataTypeSelection = TRUE)
 }
 \arguments{
 \item{id}{ID of this UI component}
+
+\item{label}{A descriptive label}
 
 \item{dataType}{Data type to parse the file as}
 

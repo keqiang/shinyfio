@@ -15,6 +15,7 @@ C_SEPARATOR_TYPE_COMMA <- "Comma"
 
 #' Internal implementation of file importing UI
 internalFileImportUI <- function(id,
+                                 label = NULL,
                                  dataType = c(C_DATA_TYPE_TABLE, C_DATA_TYPE_MATRIX),
                                  enableDataTypeSelection = TRUE) {
   ns <- NS(id)
@@ -31,7 +32,7 @@ internalFileImportUI <- function(id,
   }
 
   tagList(
-    fileSelectWidget(ns("fileSelect")),
+    fileSelectWidget(ns("fileSelect"), label),
     dataTypeSelectInput,
     checkboxInput(
       ns("tableHasHeader"),
@@ -255,15 +256,17 @@ internalFileImport <- function(input, output, session,
 #' things correctly.
 #'
 #' @param id ID of this UI component
+#' @param label A descriptive label
 #' @param dataType Data type to parse the file as
 #' @param enableDataTypeSelection Whether to let the user specify which data type to import the file as
 #' @return The widget
 #' @export
 fileImportWidget <- function(id,
+                             label = NULL,
                              dataType = c(C_DATA_TYPE_TABLE, C_DATA_TYPE_MATRIX),
                              enableDataTypeSelection = TRUE) {
   dataType <- match.arg(dataType)
-  internalFileImportUI(id, dataType, enableDataTypeSelection)
+  internalFileImportUI(id, label, dataType, enableDataTypeSelection)
 }
 
 #' Call this function in Shiny server logic to activate \link{fileImportWidget}

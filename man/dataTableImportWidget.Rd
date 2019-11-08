@@ -4,12 +4,12 @@
 \alias{dataTableImportWidget}
 \title{Shiny UI widget to import a data table as data frame from file}
 \usage{
-dataTableImportWidget(id, title = "Tab or Comma Separated File")
+dataTableImportWidget(id, label = NULL)
 }
 \arguments{
 \item{id}{ID of this UI component}
 
-\item{title}{Title of the popup dialog}
+\item{label}{A descriptive label}
 }
 \value{
 The widget
