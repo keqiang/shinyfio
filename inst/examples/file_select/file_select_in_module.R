@@ -1,5 +1,5 @@
 library(shiny)
-library(shinywidgets)
+library(shinyfio)
 
 testFileSelectInModuleUI <- function(id) {
   ns <- NS(id)

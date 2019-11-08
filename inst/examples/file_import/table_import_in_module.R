@@ -1,5 +1,5 @@
 library(shiny)
-library(shinywidgets)
+library(shinyfio)
 
 testTableImportInModuleUI <- function(id) {
   ns <- NS(id)

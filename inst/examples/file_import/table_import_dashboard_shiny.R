@@ -1,6 +1,6 @@
 library(shiny)
 library(shinydashboard)
-library(shinywidgets)
+library(shinyfio)
 
 ui <- dashboardPage(
   dashboardHeader(title = "Table Importing Example"),

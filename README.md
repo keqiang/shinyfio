@@ -1,12 +1,12 @@
-# shinywidgets
-This package includes some commonly used Shiny customized UI widgets such as a file importing widget with data previewing capability.
+# shinyfio
+This package provides customized Shiny UI widgets for tidy data import/export from/to files
 
 # A live Shiny app uses modules from this package
 https://keqiangli.shinyapps.io/genemap/  
-[Source code](https://github.com/keqiang/rshinygenemap)
+[Source code](https://github.com/keqiang/shiny-genemap)
 
 # Installation
-`devtools::install_github("keqiang/shinywidgets")`
+`devtools::install_github("keqiang/shinyfio")`
 
 # Examples
 
@@ -15,7 +15,7 @@ https://keqiangli.shinyapps.io/genemap/
 # app.R
 
 library(shiny)
-library(shinywidgets)
+library(shinyfio)
 
 ui <- fluidPage(
   wellPanel(
@@ -41,7 +41,7 @@ shinyApp(ui = ui, server = server)
 # app.R
 
 library(shiny)
-library(shinywidgets)
+library(shinyfio)
 
 testTableImportInModuleUI <- function(id) {
   ns <- NS(id)
@@ -79,7 +79,7 @@ shinyApp(ui = ui, server = server)
 # app.R
 
 library(shiny)
-library(shinywidgets)
+library(shinyfio)
 
 ui <- fluidPage(
   wellPanel(
