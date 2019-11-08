@@ -24,7 +24,7 @@ internalDataTablePreview <- function(input, output, session, dataTable) {
   output$previewTable <- DT::renderDataTable({
     options <- list(scrollX = TRUE, dom = "t", bSort = FALSE) # enable x axis scrolling and disable column sorting
     if (isolate(input$showAllData)) { # If displaying all rows, show page length change input
-      options$dom <- "litp"
+      options$dom <- "ltip"
     }
     DT::datatable(
       displayData(),
