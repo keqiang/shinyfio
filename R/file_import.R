@@ -50,7 +50,10 @@ internalFileImportUI <- function(id,
       condition = getJavaScriptOutputId("fileUploaded", ns),
       dataTablePreviewWidget(ns("previewTable"), enableOptionToShowAllRows = FALSE)
     ),
-
+    tags$div(
+      style="color: #9F6000;",
+      "Table column names will be normalized using janitor::make_clean_names()"
+    ),
     textOutput(ns("status")),
     tags$br(),
     actionButton(ns("importButton"), "Import")
