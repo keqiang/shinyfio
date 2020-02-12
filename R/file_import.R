@@ -87,7 +87,8 @@ internalFileImport <- function(input, output, session,
           col_names = FALSE, # take the column name as regular data
           col_types = readr::cols() # avoid the verbose logging
         ) %>%
-        unlist(., use.names = FALSE) # convert the first row to a vector
+        unlist(., use.names = FALSE) %>% # convert the first row to a vector
+        janitor::make_clean_names()
 
       validate(need(!anyDuplicated(colNames), "column names have duplicates"))
 
@@ -158,72 +159,79 @@ internalFileImport <- function(input, output, session,
 
   importedData <- eventReactive(input$importButton, {
     shinyjs::disable("importButton")
-    tryCatch({
-      req(previewData())
-      withProgress({
-        setProgress(0.1, detail = "validating")
-        rf <- fileReadFun()
-        if (input$tableHasHeader) {
-          setProgress(0.2, detail = "reading column headers")
-          colNames <-
-            rf(
-              selectedFile()$datapath,
-              trim_ws = TRUE,
-              n_max = 1,
-              col_names = FALSE, # treat the column name as regular data
-              col_types = readr::cols() # avoid the verbose logging
-            ) %>%
-            unlist(., use.names = FALSE) # convert the first row to a vector
-          setProgress(0.3, detail = "reading data")
-          dt <-
-            rf(
-              selectedFile()$datapath,
-              trim_ws = TRUE,
-              skip = 1,
-              n_max = maxNumberOfLines,
-              col_names = FALSE,
-              col_types = readr::cols()
-            )
-          if (length(colNames) == ncol(dt) - 1) {
-            colNames <- c("Auto_Added_Header", colNames)
-          }
-          colnames(dt) <- colNames
-        } else {
-          setProgress(0.3, detail = "reading data")
-          dt <-
-            rf(
-              selectedFile()$datapath,
-              trim_ws = TRUE,
-              n_max = maxNumberOfLines,
-              col_names = FALSE,
-              col_types = readr::cols()
-            )
-        }
+    tryCatch(
+      {
+        req(previewData())
+        withProgress(
+          {
+            setProgress(0.1, detail = "validating")
+            rf <- fileReadFun()
+            if (input$tableHasHeader) {
+              setProgress(0.2, detail = "reading column headers")
+              colNames <-
+                rf(
+                  selectedFile()$datapath,
+                  trim_ws = TRUE,
+                  n_max = 1,
+                  col_names = FALSE, # treat the column name as regular data
+                  col_types = readr::cols() # avoid the verbose logging
+                ) %>%
+                unlist(., use.names = FALSE) %>% # convert the first row to a vector
+                janitor::make_clean_names()
+              setProgress(0.3, detail = "reading data")
+              dt <-
+                rf(
+                  selectedFile()$datapath,
+                  trim_ws = TRUE,
+                  skip = 1,
+                  n_max = maxNumberOfLines,
+                  col_names = FALSE,
+                  col_types = readr::cols()
+                )
+              if (length(colNames) == ncol(dt) - 1) {
+                colNames <- c("Auto_Added_Header", colNames)
+              }
+              colnames(dt) <- colNames
+            } else {
+              setProgress(0.3, detail = "reading data")
+              dt <-
+                rf(
+                  selectedFile()$datapath,
+                  trim_ws = TRUE,
+                  n_max = maxNumberOfLines,
+                  col_names = FALSE,
+                  col_types = readr::cols()
+                )
+            }
 
-        if (input$dataType == C_DATA_TYPE_MATRIX) {
-          rowNames <- dt[[1]]
+            if (input$dataType == C_DATA_TYPE_MATRIX) {
+              rowNames <- dt[[1]]
 
-          dataPart <- dt[2:ncol(dt)]
-          testNumeric <-
-            dataPart %>%
-            summarise_all(is.numeric) %>%
-            gather()
+              dataPart <- dt[2:ncol(dt)]
+              testNumeric <-
+                dataPart %>%
+                summarise_all(is.numeric) %>%
+                gather()
 
-          validate(
-            need(
-              all(testNumeric$value),
-              "There are non-numeric values in your data. Import as 'Table' if you intended to import a data table with strings"
-            )
-          )
+              validate(
+                need(
+                  all(testNumeric$value),
+                  "There are non-numeric values in your data. Import as 'Table' if you intended to import a data table with strings"
+                )
+              )
 
-          dt <- data.matrix(dataPart)
+              dt <- data.matrix(dataPart)
 
-          row.names(dt) <- rowNames
-        }
-        setProgress(0.9, detail = "finishing up")
-        return(dt)
-      }, message = "Importing file")
-    }, finally = shinyjs::enable("importButton"))
+              row.names(dt) <- rowNames
+            }
+            setProgress(0.9, detail = "finishing up")
+            return(dt)
+          },
+          message = "Importing file"
+        )
+      },
+      finally = shinyjs::enable("importButton")
+    )
   })
 
   observe({
