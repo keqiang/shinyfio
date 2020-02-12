@@ -217,7 +217,7 @@ internalFileImport <- function(input, output, session,
               testNumeric <-
                 dataPart %>%
                 summarise_all(is.numeric) %>%
-                gather()
+                tidyr::gather()
 
               validate(
                 need(
