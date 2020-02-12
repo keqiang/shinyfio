@@ -39,6 +39,13 @@ internalFileImportUI <- function(id,
       label = "Data has column headers",
       value = TRUE
     ),
+    conditionalPanel(
+      condition = getJavaScriptInputId("tableHasHeader", ns),
+      tags$div(
+        style="color: #9F6000;",
+        "Column headers will be cleaned using janitor::make_clean_names()"
+      ),
+    ),
     # separator type
     selectInput(
       ns("separatorType"),
@@ -49,10 +56,6 @@ internalFileImportUI <- function(id,
     conditionalPanel(
       condition = getJavaScriptOutputId("fileUploaded", ns),
       dataTablePreviewWidget(ns("previewTable"), enableOptionToShowAllRows = FALSE)
-    ),
-    tags$div(
-      style="color: #9F6000;",
-      "Table column names will be normalized using janitor::make_clean_names()"
     ),
     textOutput(ns("status")),
     tags$br(),
